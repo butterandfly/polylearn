@@ -1,0 +1,21 @@
+{
+  "name": "polylearn",
+  "homepage": "https://github.com/butterandfly/polylearn",
+  "authors": [
+    "butterandfly"
+  ],
+  "description": "",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "^1.7.0"
+  }
+}

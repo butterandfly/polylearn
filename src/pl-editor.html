@@ -1,0 +1,52 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<script src="../bower_components/ace-builds/src/ace.js"></script>
+<script src="../bower_components/ace-builds/src/theme-tomorrow.js"></script>
+
+<dom-module id="pl-editor">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #polylearnEditor {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <div id="polylearnEditor"></div>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'pl-editor',
+
+        properties: {
+          polylearnEditor: {
+            type: Object
+          }
+        },
+
+        attached() {
+          let polylearnEditor = window.ace.edit(this.$.polylearnEditor);
+
+          polylearnEditor.getSession().setMode('ace/mode/html');
+          polylearnEditor.setTheme('ace/theme/tomorrow');
+          this.polylearnEditor = polylearnEditor;
+        },
+
+        setEditorValue(val) {
+          this.polylearnEditor.setValue(val);
+        },
+
+        getEditorValue() {
+          return this.polylearnEditor.getValue();
+        }
+
+      });
+    })();
+  </script>
+</dom-module>

@@ -1,0 +1,81 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<link rel="import" href="./pl-header.html">
+<link rel="import" href="./pl-editor.html">
+
+<dom-module id="pl-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100vh;
+        width: 100vw;
+      }
+
+      #container {
+        height: calc(100vh - 54px);
+        display: flex;
+        justify-content: space-around;;
+      }
+
+      pl-editor {
+        flex: 1;
+        height: calc(100vh - 48px);
+      }
+
+      #resultWindowContainer {
+        flex: 1;
+        border-left: 1px solid #aaa;
+      }
+
+      #resultWindowContainer iframe {
+        border: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <iron-ajax
+      id="ajax"
+      auto
+      handle-as="text"
+      on-response="_handleResponse"></iron-ajax>
+
+
+    <pl-header on-tap-run-view="runView"></pl-header>
+    <div id="container">
+      <pl-editor id="plEditor"></pl-editor>
+      <div id="resultWindowContainer">
+        <iframe id="iframe"></iframe>
+      </div>
+    </div>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'pl-app',
+
+        properties: {},
+
+        attached() {
+          this.$.ajax.url = 'level01/level01.html';
+        },
+
+        _handleResponse() {
+          this.$.plEditor.setEditorValue(this.$.ajax.lastResponse);
+        },
+
+        _reloadIFrame(html) {
+          this.$.iframe.contentDocument.body.innerHTML = html;
+        },
+
+        runView() {
+          let html = this.$.plEditor.getEditorValue();
+          this._reloadIFrame(html);
+        }
+      });
+    })();
+  </script>
+</dom-module>

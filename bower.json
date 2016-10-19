@@ -19,6 +19,7 @@
     "polymer": "^1.7.0",
     "paper-input": "^1.1.20",
     "ace-builds": "^1.2.5",
-    "iron-ajax": "^1.4.3"
+    "iron-ajax": "^1.4.3",
+    "paper-dialog": "^1.1.0"
   }
 }

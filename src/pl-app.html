@@ -3,6 +3,7 @@
 
 <link rel="import" href="./pl-header.html">
 <link rel="import" href="./pl-editor.html">
+<link rel="import" href="./pl-desc-dialog.html">
 
 <dom-module id="pl-app">
   <template>
@@ -42,13 +43,14 @@
       on-response="_handleResponse"></iron-ajax>
 
 
-    <pl-header on-tap-run-view="runView"></pl-header>
+    <pl-header on-tap-run-view="runView" on-tap-watch-desc="watchDesc"></pl-header>
     <div id="container">
       <pl-editor id="plEditor"></pl-editor>
       <div id="resultWindowContainer">
-        <iframe id="iframe"></iframe>
+        <!-- <iframe id="iframe"></iframe> -->
       </div>
     </div>
+    <pl-desc-dialog id="descDialog"></pl-desc-dialog>
   </template>
   <script>
     (function() {
@@ -63,17 +65,32 @@
           this.$.ajax.url = 'level01/level01.html';
         },
 
+        get iframe() {
+          return this.$$('iframe');
+        },
+
         _handleResponse() {
           this.$.plEditor.setEditorValue(this.$.ajax.lastResponse);
         },
 
         _reloadIFrame(html) {
-          this.$.iframe.contentDocument.body.innerHTML = html;
+          if (this.iframe) {
+            Polymer.dom(this.$.resultWindowContainer).removeChild(this.iframe);
+          }
+
+          var iframe = document.createElement('iframe');
+          iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
+          Polymer.dom(this.$.resultWindowContainer).appendChild(iframe);
         },
 
         runView() {
           let html = this.$.plEditor.getEditorValue();
           this._reloadIFrame(html);
+        },
+
+        watchDesc() {
+          this.$.descDialog.mdFile = 'level01/level01.md';
+          this.$.descDialog.opened = true;
         }
       });
     })();

@@ -1,16 +1,27 @@
-<link href="../bower_components/polymer/polymer.html" rel="import">
+<base href="http://localhost:8080/">
+<link href="bower_components/polymer/polymer.html" rel="import">
 
 <dom-module id="fish-fire">
+  <template>
   <style>
     :host {
       display: block;
     }
   </style>
-  <template>
     <h2>Fish Fire</h2>
   </template>
+  <script>
+      Polymer({
+        is: 'fish-fire'
+      })
+  </script>
 </dom-module>
 
 <h1>Level 01</h1>
 
 <!-- TODO: 在这里使用你元素！  -->
+<fish-fire></fish-fire>
+
+<script type="text/javascript">
+  console.log('Test!');
+</script>

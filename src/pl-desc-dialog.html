@@ -1,0 +1,65 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="pl-desc-dialog">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #container {
+        width: 800px;
+      }
+
+      #btns {
+        display: flex;
+        justify-content: flex-end;
+      }
+    </style>
+
+    <iron-ajax
+      auto
+      url="{{mdFile}}"
+      handle-as="text"
+      last-response="{{mdFileContent}}"></iron-ajax>
+
+    <paper-dialog with-backdrop opened="{{opened}}">
+      <div id="container">[[mdFileContent]]</div>
+      <div id="btns">
+        <paper-button on-tap="close">确定</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'pl-desc-dialog',
+
+        properties: {
+          opened: {
+            type: Boolean,
+            notify: true
+          },
+
+          mdFile: {
+            type: String
+          },
+
+          mdFileContent: {
+            type: String
+          }
+        },
+
+        close() {
+          this.opened = false;
+        }
+      });
+    })();
+  </script>
+</dom-module>

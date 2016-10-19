@@ -29,6 +29,7 @@
     <paper-button on-tap="_runTest">运行测试</paper-button>
     <paper-button on-tap="_runView">预览</paper-button>
     <paper-button on-tap="_reset">重置</paper-button>
+    <paper-button on-tap="_watchDesc">查看关卡说明</paper-button>
 
   </template>
   <script>
@@ -48,6 +49,10 @@
 
         _reset() {
           this.fire('tap-reset', null, {bubbles: false});
+        },
+
+        _watchDesc() {
+          this.fire('tap-watch-desc', null, {bubbles: false});
         }
       });
     })();

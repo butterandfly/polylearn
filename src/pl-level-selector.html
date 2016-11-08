@@ -1,0 +1,45 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+
+<dom-module id="pl-level-selector">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #title {
+        height: 48px;
+        font-size: 24px;
+        background-color: #777;
+        color: white;
+        padding-left: 16px;
+        line-height: 48px;
+      }
+    </style>
+
+    <div id="title">关卡选择</div>
+    <paper-listbox>
+      <template is="dom-repeat" items="[[levels]]">
+        <paper-item>Level [[item]]</paper-item>
+      </template>
+    </paper-listbox>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'pl-level-selector',
+
+        properties: {
+          levels: {
+            type: Array,
+            value: [1, 2, 3]
+          }
+        }
+      });
+    })();
+  </script>
+</dom-module>

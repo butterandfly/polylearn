@@ -1,7 +1,6 @@
 (function() {
   let testTemplate = `
   <head>
-      <base href="http://localhost:8001/">
       <link rel="stylesheet" href="./bower_components/mocha/mocha.css" />
   </head>
   <body>
@@ -21,7 +20,6 @@
 
   let previewTemplate = `
   <head>
-    <base href="http://localhost:8001/">
   </head>
   <body>
       {{{preview}}}
@@ -38,7 +36,8 @@
     let iframe = document.createElement('iframe');
     let html = testTemplate.replace('{{{preview}}}', previewHtml);
     html = html.replace(new RegExp('{{{level}}}', 'g'), level);
-    iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
+    iframe.src = 'blank.html';
+    iframe.srcdoc = html;
     return iframe;
   }
 
@@ -50,7 +49,8 @@
   function createPreviewIframe(previewHtml) {
     let iframe = document.createElement('iframe');
     let html = previewTemplate.replace('{{{preview}}}', previewHtml);
-    iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
+    iframe.src = 'blank.html';
+    iframe.srcdoc = html;
     return iframe;
   }
 

@@ -54,11 +54,12 @@
 
           polylearnEditor.getSession().setMode('ace/mode/html');
           polylearnEditor.setTheme('ace/theme/tomorrow');
+          polylearnEditor.$blockScrolling = Infinity;
           this.polylearnEditor = polylearnEditor;
         },
 
         setEditorValue(val) {
-          this.polylearnEditor.setValue(val);
+          this.polylearnEditor.setValue(val, 1);
         },
 
         getEditorValue() {

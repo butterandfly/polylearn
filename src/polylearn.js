@@ -2,10 +2,30 @@
   let testTemplate = `
   <head>
       <link rel="stylesheet" href="./bower_components/mocha/mocha.css" />
+      <style>
+        #mocha-stats {
+          display: none;
+        }
+
+        #mocha {
+          margin: 32px;
+        }
+
+        .test-title {
+          border-top: 1px #3889ec solid;
+          padding-top: 24px;
+          margin-top: 48px;
+          color: #333;
+        }
+
+        body {
+          padding: 8px;
+        }
+      </style>
   </head>
   <body>
       {{{preview}}}
-      <h2>测试结果</h2>
+      <h2 class="test-title">测试结果</h2>
       <div id="mocha"></div> <!-- 1 -->
       <script src="./bower_components/mocha/mocha.js"></script>
       <script src="./bower_components/chai/chai.js"></script>

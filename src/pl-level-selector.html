@@ -17,12 +17,31 @@
         padding-left: 16px;
         line-height: 48px;
       }
+
+      paper-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 4px;
+        cursor: pointer;
+      }
+
+      .level {
+        font-size: 18px;
+      }
+
+      .level-desc {
+        font-size: 12px;
+        color: #444;
+      }
     </style>
 
     <div id="title">关卡选择</div>
     <paper-listbox attr-for-selected="level" selected="{{selectedLevel}}">
       <template is="dom-repeat" items="[[levels]]">
-        <paper-item level="[[item.level]]">[[item.level]]</paper-item>
+        <paper-item on-tap="_ask" level="[[item.level]]">
+          <div class="level">[[item.level]]</div>
+          <span class="level-desc">[[item.desc]]</span>
+        </paper-item>
       </template>
     </paper-listbox>
   </template>
@@ -37,8 +56,8 @@
           levels: {
             type: Array,
             value: [
-              {level: 'level01'},
-              {level: 'level02'}
+              {level: 'level01', desc: '学习使用自定义元素'},
+              {level: 'level02', desc: '修改自定义元素的html模板'}
             ]
           },
 
@@ -46,6 +65,11 @@
             type: String,
             notify: true
           }
+        },
+
+        _ask(event) {
+          // 阻止冒泡，使得选择不会改变
+          // event.stopPropagation();
         }
       });
     })();

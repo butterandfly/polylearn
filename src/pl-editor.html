@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
 <script src="../bower_components/ace-builds/src/ace.js"></script>
 <script src="../bower_components/ace-builds/src/theme-tomorrow.js"></script>
 
@@ -15,6 +17,13 @@
       }
     </style>
 
+    <iron-ajax
+      id="ajax"
+      auto
+      handle-as="text"
+      on-response="reset">
+    </iron-ajax>
+
     <div id="polylearnEditor"></div>
   </template>
   <script>
@@ -26,9 +35,19 @@
 
         properties: {
           polylearnEditor: {
-            type: Object
+            type: Object,
+            notify: true
+          },
+
+          currentLevel: {
+            type: String,
+            notify: true
           }
         },
+
+        observers: [
+          '_loadEditorContent(currentLevel, polylearnEditor)'
+        ],
 
         attached() {
           let polylearnEditor = window.ace.edit(this.$.polylearnEditor);
@@ -44,6 +63,18 @@
 
         getEditorValue() {
           return this.polylearnEditor.getValue();
+        },
+
+        reset() {
+          this.setEditorValue(this.$.ajax.lastResponse);
+        },
+
+        _loadEditorContent(currentLevel, polylearnEditor) {
+          if (!polylearnEditor) {
+            return;
+          }
+
+          this.$.ajax.url = `/levels/${currentLevel}/${currentLevel}.html`;
         }
 
       });

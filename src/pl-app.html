@@ -1,5 +1,4 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 
 <link rel="import" href="./pl-header.html">
@@ -56,32 +55,22 @@
         z-index: 9;
       }
     </style>
-    <iron-ajax
-      id="ajax"
-      auto
-      handle-as="text"
-      on-response="_handleResponse"></iron-ajax>
-
 
     <pl-header on-tap-run-view="runView"
                on-tap-watch-desc="watchDesc"
+               on-tap-reset="resetEditor"
                on-tap-run-test="runTest"
                on-tap-change-level="_toggleDrawer"></pl-header>
 
      <div id="container">
-       <pl-editor id="plEditor"></pl-editor>
-       <div id="resultWindowContainer">
-         <!-- <iframe id="iframe"></iframe> -->
-         <!-- <div id="testWindow">
-           <iframe src="/run_test.html" width="600" height="600"></iframe>
-         </div> -->
-       </div>
+       <pl-editor id="plEditor" current-level="[[currentLevel]]"></pl-editor>
+       <div id="resultWindowContainer"></div>
      </div>
 
-    <pl-desc-dialog id="descDialog"></pl-desc-dialog>
+    <pl-desc-dialog id="descDialog" current-level="[[currentLevel]]"></pl-desc-dialog>
 
      <app-drawer id="drawer" swipe-open>
-       <pl-level-selector></pl-level-selector>
+       <pl-level-selector selected-level="{{currentLevel}}"></pl-level-selector>
      </app-drawer>
   </template>
   <script>
@@ -91,24 +80,26 @@
       Polymer({
         is: 'pl-app',
 
-        properties: {},
+        properties: {
 
-        attached() {
-          this.$.ajax.url = 'level01/level01.html';
+          /**
+           * 当前选择的level。
+           */
+          currentLevel: {
+            type: String,
+            value: 'level01',
+            notify: true
+          }
         },
 
+        /**
+         * 得到iframe。
+         */
         get iframe() {
           return this.$$('iframe');
         },
 
-        get testIframe() {
-          return this.$$('#testWindow>iframe');
-        },
-
-        _handleResponse() {
-          this.$.plEditor.setEditorValue(this.$.ajax.lastResponse);
-        },
-
+        // 重新加载iframe
         _reloadIFrame(iframe) {
           if (this.iframe) {
             Polymer.dom(this.$.resultWindowContainer).removeChild(this.iframe);
@@ -116,21 +107,36 @@
           Polymer.dom(this.$.resultWindowContainer).appendChild(iframe);
         },
 
+        /**
+         * 运行测试。
+         */
         runTest() {
           let html = this.$.plEditor.getEditorValue();
-          let iframe = window.Polylearn.createTestIframe(html);
+          let iframe = window.Polylearn.createTestIframe(html, this.currentLevel);
           this._reloadIFrame(iframe);
         },
 
+        /**
+         * 运行预览。
+         */
         runView() {
           let html = this.$.plEditor.getEditorValue();
           let iframe = window.Polylearn.createPreviewIframe(html);
           this._reloadIFrame(iframe);
         },
 
+        /**
+         * 查看关卡说明。
+         */
         watchDesc() {
-          this.$.descDialog.mdFile = 'level01/level01.md';
-          this.$.descDialog.opened = true;
+          this.$.descDialog.open();
+        },
+
+        /**
+         * 重置编辑器。
+         */
+        resetEditor() {
+          this.$.plEditor.reset();
         },
 
         _toggleDrawer() {

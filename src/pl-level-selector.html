@@ -20,9 +20,9 @@
     </style>
 
     <div id="title">关卡选择</div>
-    <paper-listbox>
+    <paper-listbox attr-for-selected="level" selected="{{selectedLevel}}">
       <template is="dom-repeat" items="[[levels]]">
-        <paper-item>Level [[item]]</paper-item>
+        <paper-item level="[[item.level]]">[[item.level]]</paper-item>
       </template>
     </paper-listbox>
   </template>
@@ -36,7 +36,15 @@
         properties: {
           levels: {
             type: Array,
-            value: [1, 2, 3]
+            value: [
+              {level: 'level01'},
+              {level: 'level02'}
+            ]
+          },
+
+          selectedLevel: {
+            type: String,
+            notify: true
           }
         }
       });

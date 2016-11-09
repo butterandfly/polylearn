@@ -15,7 +15,7 @@
           mocha.reporter('html'); // 3
           window.assert = chai.assert; // 4
       </script>
-      <script src="/level01/level01_test.js"></script>
+      <script src="/levels/{{{level}}}/{{{level}}}_test.js"></script>
   </body>
   `;
 
@@ -31,11 +31,13 @@
   /**
    * 创建预览并运行测试的iFrame。
    * @param {string} previewHtml 预览内容
+   * @param {string} level 关卡
    * @return {IFrameElement} iframe
    */
-  function createTestIframe(previewHtml) {
+  function createTestIframe(previewHtml, level) {
     let iframe = document.createElement('iframe');
     let html = testTemplate.replace('{{{preview}}}', previewHtml);
+    html = html.replace(new RegExp('{{{level}}}', 'g'), level);
     iframe.src = 'data:text/html;charset=utf-8,' + encodeURI(html);
     return iframe;
   }

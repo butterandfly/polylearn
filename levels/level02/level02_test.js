@@ -1,22 +1,19 @@
 (function() {
-  suite('Level 01', function() {
-    test('已创建"fish-fire"元素', function() {
-      assert.ok(document.querySelector('fish-fire'));
+  suite('Level 02', function() {
+    test('已使用"star-bar"元素', function() {
+      let el = document.querySelector('star-bar');
+
+      assert.ok(el);
+      assert.equal(el.is, 'star-bar');
     });
 
-    test('"fish-fire"是由polymer创建的自定义元素', function() {
-      let el = document.querySelector('fish-fire');
+    test('span里的文字改为"Bar Bar Star"', function() {
+      let el = document.querySelector('star-bar');
       assert.ok(el);
-      assert.equal(el.is, 'fish-fire');
-    });
 
-    test('在"fish-fire"里添加一个span', function() {
-      let el = document.querySelector('fish-fire');
-      assert.ok(el);
-      let spanEl = el.$$('span');
+      let spanEl = el.$$('#header>span');
       assert.ok(spanEl);
+      assert.equal(spanEl.textContent, 'Bar Bar Star');
     });
   });
-
-  mocha.run();
 })();

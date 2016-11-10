@@ -1,6 +1,8 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 
+<link rel="import" href="./tk-confirm-dialog.html">
+
 <link rel="import" href="./pl-header.html">
 <link rel="import" href="./pl-editor.html">
 <link rel="import" href="./pl-desc-dialog.html">
@@ -56,6 +58,7 @@
       }
     </style>
 
+
     <pl-header on-tap-run-view="runView"
                on-tap-watch-desc="watchDesc"
                on-tap-reset="resetEditor"
@@ -71,9 +74,16 @@
     <pl-desc-dialog id="descDialog" current-level="[[currentLevel]]"></pl-desc-dialog>
 
      <app-drawer id="drawer" swipe-open>
-       <pl-level-selector selected-level="{{currentLevel}}" on-selected-level-changed="_closeDrawer">
+       <pl-level-selector selected-level="{{currentLevel}}" on-selected-level-changed="_changeLevel">
        </pl-level-selector>
      </app-drawer>
+
+    <tk-confirm-dialog id="testSuccessDialog"
+                       title="测试通过！"
+                       content="你可以进入下一关卡"
+                       confirm-only
+                       close-by-confirm>
+    </tk-confirm-dialog>
   </template>
   <script>
     (function() {
@@ -94,6 +104,14 @@
           }
         },
 
+        attached() {
+          window.addEventListener('message', event => {
+            if (event.data === 'test-success') {
+              this._testSuccess();
+            }
+          });
+        },
+
         /**
          * 得到iframe。
          */
@@ -101,12 +119,22 @@
           return this.$$('iframe');
         },
 
+        // 测试通过
+        _testSuccess() {
+          this.$.testSuccessDialog.open();
+        },
+
         // 重新加载iframe
         _reloadIFrame(iframe) {
+          this._cleanIFrame();
+          Polymer.dom(this.$.resultWindowContainer).appendChild(iframe);
+        },
+
+        // 删除iframe
+        _cleanIFrame() {
           if (this.iframe) {
             Polymer.dom(this.$.resultWindowContainer).removeChild(this.iframe);
           }
-          Polymer.dom(this.$.resultWindowContainer).appendChild(iframe);
         },
 
         /**
@@ -145,8 +173,9 @@
           this.$.drawer.toggle();
         },
 
-        _closeDrawer() {
+        _changeLevel() {
           this.$.drawer.close();
+          this._cleanIFrame();
         }
       });
     })();

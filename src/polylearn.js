@@ -35,6 +35,16 @@
           window.assert = chai.assert; // 4
       </script>
       <script src="/levels/{{{level}}}/{{{level}}}_test.js"></script>
+      <script>
+        mocha.run(failures => {
+          if (failures === 0) {
+            window.parent.postMessage('test-success', '*');
+            return;
+          }
+
+          window.parent.postMessage('test-failed', '*');
+        });
+      </script>
   </body>
   `;
 

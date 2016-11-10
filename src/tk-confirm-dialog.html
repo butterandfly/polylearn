@@ -1,0 +1,180 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<!--
+该组件可以通过自定义属性来修改弹出窗口的标题/内容.
+在默认情况下，opened属性为false,设置成true时窗口弹出．
+```html
+<tk-confirm-dialog title="你想要设置的标题"
+                   content=＂你想要设置的内容＂
+                   opened=true>
+</tk-confirm-dialog>
+```
+```js
+<script>
+  document.querySelector('tk-confirm-dialog').open();
+</script>
+```
+@demo demo/index.html
+-->
+
+<dom-module id="tk-confirm-dialog">
+  <template>
+    <style>
+      :host {
+        font-family: Verdana;
+      }
+
+      h2{
+        line-height: 20px;
+      }
+
+      p {
+        margin-top: 20px;
+        margin-bottom: 24px
+      }
+
+      #modal {
+        min-width: 320px;
+      }
+
+      #buttonWrap {
+        display: flex;
+        height: 32px;
+        width: auto;
+        justify-content: flex-end;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        padding:8px 8px 8px 0;
+      }
+
+      .dialogButton {
+        line-height: 15px;
+        padding: 0 16px;
+        color: #1976d2;
+      }
+
+      #cancel {
+        margin-right: 8px;
+        margin-left: 0;
+      }
+
+      #confirm {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    </style>
+
+    <!-- <paper-dialog opened="{{opened}}" id="modal" with-backdrop="[[true]]"> -->
+    <paper-dialog opened="{{opened}}" id="modal">
+      <div id="titleContent">
+        <h2>{{title}}</h2>
+        <p>{{content}}</p>
+      </div>
+      <div id="buttonWrap">
+        <paper-button class="dialogButton"
+                      id="cancel"
+                      hidden$=[[confirmOnly]]
+                      on-tap='_confirmDialogCancel'>取&nbsp消</paper-button>
+        <paper-button class="dialogButton" id="confirm" on-tap='_confirmDialogConfirm'>确&nbsp认</paper-button>
+      </div>
+    </paper-dialog>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'tk-confirm-dialog',
+      properties: {
+        /**
+        *设置组件的title值并展现在页面的标题中
+        */
+        title: {
+          type: String,
+          value: 'Title'
+        },
+
+        /**
+        *设置组件的主要内容并展现在段落中
+        */
+        content: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * 默认为false，当设置为true时，dialog窗口弹出
+         */
+        opened: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        /**
+         * cancel后是否自动关闭弹窗。
+         */
+        closeByCancel: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * confirm后是否自动关闭弹窗。
+         */
+        closeByConfirm: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * 是否只有confirm按钮。
+         */
+        confirmOnly: {
+          type: Boolean,
+          value: false
+        }
+      },
+
+      /**
+      *点击取消按钮时，触发该事件
+      @event tk-confirm-dialog-cancel
+      */
+
+      /**
+      *点击确认按钮时，触发该事件
+      @event tk-confirm-dialog-confirm
+      */
+
+      /**
+      *open()方法可打开弹出窗口
+      */
+      open: function() {
+        this.opened = true;
+      },
+
+      /**
+      *close()方法可关闭弹出窗口
+      */
+      close: function() {
+        this.opened = false;
+      },
+
+      _confirmDialogCancel: function() {
+        if (this.closeByCancel) {
+          this.close();
+        }
+
+        this.fire('tk-confirm-dialog-cancel', null, {bubble: false});
+      },
+
+      _confirmDialogConfirm: function() {
+        if (this.closeByConfirm) {
+          this.close();
+        }
+
+        this.fire('tk-confirm-dialog-confirm', null, {bubble: false});
+      }
+    });
+  </script>
+</dom-module>

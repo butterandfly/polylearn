@@ -23,6 +23,15 @@
         padding-left: 16px;
         padding-right: 32px;
       }
+
+      #level {
+        position: absolute;
+        right: 48px;
+      }
+
+      #level>span {
+        color: #3c78f3;
+      }
     </style>
 
     <span class="product">Polylearn</span>
@@ -31,6 +40,7 @@
     <paper-button on-tap="_reset">重置</paper-button>
     <paper-button on-tap="_watchDesc">查看关卡说明</paper-button>
     <paper-button on-tap="_changeLevel">选择关卡</paper-button>
+    <div id="level">当前等级： <span>[[currentLevel]]</span></div>
 
   </template>
   <script>
@@ -39,6 +49,15 @@
 
       Polymer({
         is: 'pl-header',
+
+        properties: {
+          /**
+           * 当前选择的level。
+           */
+          currentLevel: {
+            type: String
+          }
+        },
 
         _runTest() {
           this.fire('tap-run-test', null, {bubbles: false});

@@ -60,7 +60,8 @@
                on-tap-watch-desc="watchDesc"
                on-tap-reset="resetEditor"
                on-tap-run-test="runTest"
-               on-tap-change-level="_toggleDrawer"></pl-header>
+               on-tap-change-level="_toggleDrawer"
+               current-level="[[currentLevel]]"></pl-header>
 
      <div id="container">
        <pl-editor id="plEditor" current-level="[[currentLevel]]"></pl-editor>
@@ -70,7 +71,8 @@
     <pl-desc-dialog id="descDialog" current-level="[[currentLevel]]"></pl-desc-dialog>
 
      <app-drawer id="drawer" swipe-open>
-       <pl-level-selector selected-level="{{currentLevel}}"></pl-level-selector>
+       <pl-level-selector selected-level="{{currentLevel}}" on-selected-level-changed="_closeDrawer">
+       </pl-level-selector>
      </app-drawer>
   </template>
   <script>
@@ -141,6 +143,10 @@
 
         _toggleDrawer() {
           this.$.drawer.toggle();
+        },
+
+        _closeDrawer() {
+          this.$.drawer.close();
         }
       });
     })();

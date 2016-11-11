@@ -2,6 +2,9 @@ const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const del = require('del');
 const PolymerProject = require('polymer-build').PolymerProject;
+const rename = require('gulp-rename');
+
+let argv = require('yargs').argv;
 
 // 检查组件代码
 gulp.task('lint-components', function() {
@@ -51,6 +54,23 @@ gulp.task('lint-tests', function() {
       }
     }))
     .pipe(eslint.format());
+});
+
+gulp.task('new-level', function() {
+  let level = argv.level;
+  if (level < 10) {
+    level = '0' + level;
+  }
+
+  if (!level) {
+    console.error('请输入levle');
+  }
+
+  return gulp.src(['tasks/*'])
+    .pipe(rename(path => {
+      path.basename = path.basename.replace('xx', level);
+    }))
+    .pipe(gulp.dest('levels/level' + level));
 });
 
 // 检查全部代码

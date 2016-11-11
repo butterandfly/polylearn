@@ -17,13 +17,15 @@
   },
   "homepage": "https://github.com/butterandfly/polylearn#readme",
   "devDependencies": {
+    "del": "^2.2.2",
     "eslint": "^3.7.1",
     "eslint-config-google": "^0.6.0",
     "eslint-plugin-html": "^1.5.3",
-    "gulp-eslint": "^3.0.1",
-    "del": "^2.2.2",
     "gulp": "^3.9.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-rename": "^1.2.2",
     "merge-stream": "^1.0.0",
-    "polymer-build": "^0.5.0"
+    "polymer-build": "^0.5.0",
+    "yargs": "^6.3.0"
   }
 }

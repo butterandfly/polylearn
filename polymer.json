@@ -1,0 +1,16 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/pl-app.html",
+  "sources": [
+    "src/**/*",
+    "levels/**/*",
+    "bower.json",
+    "blank.html"
+  ],
+  "includeDependencies": [
+    "bower_components/webcomponentsjs/webcomponents-lite.min.js",
+    "bower_components/mocha/mocha.js",
+    "bower_components/mocha/mocha.css",
+    "bower_components/chai/chai.js"
+  ]
+}

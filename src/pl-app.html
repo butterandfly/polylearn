@@ -64,6 +64,7 @@
                on-tap-reset="resetEditor"
                on-tap-run-test="runTest"
                on-tap-change-level="_toggleDrawer"
+               username="[[user.username]]"
                current-level="[[currentLevel]]"></pl-header>
 
      <div id="container">
@@ -74,7 +75,7 @@
     <pl-desc-dialog id="descDialog" current-level="[[currentLevel]]"></pl-desc-dialog>
 
      <app-drawer id="drawer" swipe-open>
-       <pl-level-selector selected-level="{{currentLevel}}" on-selected-level-changed="_changeLevel">
+       <pl-level-selector id="levelSelector" selected-level="{{currentLevel}}" on-selected-level-changed="_changeLevel">
        </pl-level-selector>
      </app-drawer>
 
@@ -101,6 +102,13 @@
             type: String,
             value: 'level01',
             notify: true
+          },
+
+          /**
+           * 用户
+           */
+          user: {
+            type: Object
           }
         },
 
@@ -110,6 +118,17 @@
               this._testSuccess();
             }
           });
+
+          window.polylearnUser = {
+            username: '游客',
+            unlockedLevel: 'level01'
+          };
+          let user = window.polylearnUser;
+          // 随机生成游客编号
+          user.username += Math.floor(Math.random() * 9000 + 1000);
+
+          this.$.levelSelector.initUnlocks(user.unlockedLevel);
+          this.user = user;
         },
 
         /**

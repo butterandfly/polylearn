@@ -1,6 +1,9 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 
 <dom-module id="pl-level-selector">
   <template>
@@ -33,6 +36,18 @@
         font-size: 12px;
         color: #444;
       }
+
+      .lock {
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        color: #666;
+        width: 20px;
+      }
+
+      iron-icon[hidden] {
+        display: none;
+      }
     </style>
 
     <div id="title">关卡选择</div>
@@ -41,9 +56,11 @@
         <paper-item on-tap="_ask" level="[[item.level]]">
           <div class="level">[[item.level]]</div>
           <span class="level-desc">[[item.desc]]</span>
+          <iron-icon hidden$="[[item.unlocked]]" class="lock" icon="lock"></iron-icon>
         </paper-item>
       </template>
     </paper-listbox>
+    <paper-toast id="toast" text="该关卡未解锁"></paper-toast>
   </template>
   <script>
     (function() {
@@ -67,9 +84,37 @@
           }
         },
 
+        /**
+         * 初始化解锁状态，将已经到达的level及之前都设置为unlocked状态
+         * @param {Number} level 到达的level
+         */
+        initUnlocks(level) {
+          // 将level转换成number
+          let levelNum = Number(level.substring(5));
+
+          // 克隆levels
+          let newLevels = JSON.parse(JSON.stringify(this.levels));
+
+          // number之前的level的unlocked都设置为true
+          for (let i = 0; i < levelNum; i++) {
+            newLevels[i].unlocked = true;
+          }
+
+          this.levels = newLevels;
+        },
+
+        getLevelObject(level) {
+          return this.levels[Number(level.substring(5)) - 1];
+        },
+
         _ask(event) {
-          // 阻止冒泡，使得选择不会改变
-          // event.stopPropagation();
+          let level = event.currentTarget.level;
+          // 未解锁时提示
+          if (!this.getLevelObject(level).unlocked) {
+            // 阻止冒泡，使得选择不会改变
+            event.stopPropagation();
+            this.$.toast.open();
+          }
         }
       });
     })();

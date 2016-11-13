@@ -29,8 +29,12 @@
         right: 48px;
       }
 
-      #level>span {
+      #currentLevel {
         color: #3c78f3;
+      }
+
+      #username {
+        font-style: italic;
       }
     </style>
 
@@ -40,7 +44,7 @@
     <paper-button on-tap="_reset">重置</paper-button>
     <paper-button on-tap="_watchDesc">查看关卡说明</paper-button>
     <paper-button on-tap="_changeLevel">选择关卡</paper-button>
-    <div id="level">当前等级： <span>[[currentLevel]]</span></div>
+    <div id="level"><span id="username">[[username]]</span>，当前等级： <span id="currentLevel">[[currentLevel]]</span></div>
 
   </template>
   <script>
@@ -55,6 +59,13 @@
            * 当前选择的level。
            */
           currentLevel: {
+            type: String
+          },
+
+          /**
+           * 用户名。
+           */
+          username: {
             type: String
           }
         },

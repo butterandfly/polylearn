@@ -60,7 +60,7 @@
         </paper-item>
       </template>
     </paper-listbox>
-    <paper-toast id="toast" text="该关卡未解锁"></paper-toast>
+    <paper-toast duration="2000" id="toast" text="该关卡未解锁"></paper-toast>
   </template>
   <script>
     (function() {
@@ -105,6 +105,15 @@
 
         getLevelObject(level) {
           return this.levels[Number(level.substring(5)) - 1];
+        },
+
+        /**
+         * 解锁一下个level。
+         * @param {String} currentLevel 当前level
+         */
+        unlockNextLevel(currentLevel) {
+          let levelNum = Number(currentLevel.substring(5));
+          this.set(['levels', levelNum, 'unlocked'], true);
         },
 
         _ask(event) {

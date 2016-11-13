@@ -116,6 +116,7 @@
           window.addEventListener('message', event => {
             if (event.data === 'test-success') {
               this._testSuccess();
+              this.$.levelSelector.unlockNextLevel(this.currentLevel);
             }
           });
 

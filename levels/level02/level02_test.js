@@ -7,13 +7,13 @@
       assert.equal(el.is, 'star-bar');
     });
 
-    test('span里的文字改为"Bar Bar Star"', function() {
+    test('span里的文字改为"Star Bar"', function() {
       let el = document.querySelector('star-bar');
       assert.ok(el);
 
       let spanEl = el.$$('#header>span');
       assert.ok(spanEl);
-      assert.equal(spanEl.textContent, 'Bar Bar Star');
+      assert.equal(spanEl.textContent, 'Star Bar');
     });
   });
 })();

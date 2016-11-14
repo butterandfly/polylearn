@@ -5,17 +5,17 @@
 > - 声明元素的property，并赋予其默认值
 
 ## 故事
-早上酒吧老板微信你，让你晚上早点去酒吧。
-不用猜肯定又是app有需求了。
+早上酒吧老板微信你，让你晚上早点去酒吧。   
+不用猜肯定又是app有需求了。   
 
 “那句欢迎词有点问题，毕竟我们的客人不少是老外。我觉得应该将那段欢迎语改成英文的'Welcome to Star Bar!'。”  
 这个倒简单。  
-“哦对了，当然也直接将其改成是一个property，然后单向绑定咯。”  
+“哦对了，当然也是直接将其改为property，然后单向绑定咯。”  
 嘻嘻，有了上次的经验后，这个也难不倒你。
 
 ## 需求
 
-- 声明一个名为welcomeWords的property，String类型，值为'Welcome to Star Bar!'
+- 声明一个名为welcomeWords的property，String类型，初始值为'Welcome to Star Bar!'
 
 ### Property#2
 我们可以在注册元素时修改`properties`的值来声明property，最简单的声明像这样：

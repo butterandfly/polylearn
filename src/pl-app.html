@@ -120,6 +120,10 @@
             }
           });
 
+          window.unlockAllLevels = () => {
+            this.$.levelSelector.unlockAll();
+          };
+
           window.polylearnUser = {
             username: '游客',
             unlockedLevel: 'level01'

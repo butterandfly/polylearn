@@ -116,6 +116,23 @@
           this.set(['levels', levelNum, 'unlocked'], true);
         },
 
+        /**
+         * 解锁所有的level。
+         */
+        unlockAll() {
+          let newLevels = this._cloneLevels();
+          newLevels.forEach(level => {
+            level.unlocked = true;
+          });
+          this.levels = newLevels;
+        },
+
+        // 返回克隆的levels数组
+        _cloneLevels() {
+          let newLevels = JSON.parse(JSON.stringify(this.levels));
+          return newLevels;
+        },
+
         _ask(event) {
           let level = event.currentTarget.level;
           // 未解锁时提示

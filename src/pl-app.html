@@ -1,7 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 
-<link rel="import" href="./tk-confirm-dialog.html">
+<link rel="import" href="../bower_components/tk-confirm-dialog/tk-confirm-dialog.html">
 
 <link rel="import" href="./pl-header.html">
 <link rel="import" href="./pl-editor.html">
@@ -80,9 +80,12 @@
      </app-drawer>
 
     <tk-confirm-dialog id="testSuccessDialog"
-                       title="测试通过！"
-                       content="你可以进入下一关卡"
-                       confirm-only
+                       title="测试通过"
+                       content="你可以进入下一关卡！"
+                       cancel-text="返回"
+                       confirm-text="下一关"
+                       on-tk-confirm-dialog-confirm="nextLevel"
+                       close-by-cancel
                        close-by-confirm>
     </tk-confirm-dialog>
   </template>
@@ -144,24 +147,6 @@
           return this.$$('iframe');
         },
 
-        // 测试通过
-        _testSuccess() {
-          this.$.testSuccessDialog.open();
-        },
-
-        // 重新加载iframe
-        _reloadIFrame(iframe) {
-          this._cleanIFrame();
-          Polymer.dom(this.$.resultWindowContainer).appendChild(iframe);
-        },
-
-        // 删除iframe
-        _cleanIFrame() {
-          if (this.iframe) {
-            Polymer.dom(this.$.resultWindowContainer).removeChild(this.iframe);
-          }
-        },
-
         /**
          * 运行测试。
          */
@@ -185,6 +170,31 @@
          */
         watchDesc() {
           this.$.descDialog.open();
+        },
+
+        /**
+         * 进入下一关卡。
+         */
+        nextLevel() {
+          this.$.levelSelector.nextLevel();
+        },
+
+        // 测试通过
+        _testSuccess() {
+          this.$.testSuccessDialog.open();
+        },
+
+        // 重新加载iframe
+        _reloadIFrame(iframe) {
+          this._cleanIFrame();
+          Polymer.dom(this.$.resultWindowContainer).appendChild(iframe);
+        },
+
+        // 删除iframe
+        _cleanIFrame() {
+          if (this.iframe) {
+            Polymer.dom(this.$.resultWindowContainer).removeChild(this.iframe);
+          }
         },
 
         /**

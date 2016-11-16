@@ -83,18 +83,37 @@ gulp.task('clean', function() {
   });
 });
 
-const project = new PolymerProject(require('./polymer.json'));
+let polymerConfig = {
+  entrypoint: 'index.html',
+  shell: 'src/pl-app.html',
+  sources: [
+    'src/**/*',
+    'levels/**/*',
+    'bower.json',
+    'blank.html'
+  ],
+  extraDependencies: [
+    'bower_components/webcomponentsjs/webcomponents-lite.min.js',
+    'bower_components/font-roboto/**/*',
+    'bower_components/ace-builds/**/*',
+    'bower_components/mocha/mocha.js',
+    'bower_components/mocha/mocha.css',
+    'bower_components/chai/chai.js',
+    'bower_components/emoji-rain/emoji-rain.html'
+  ]
+};
+
+let project = new PolymerProject(polymerConfig);
 const mergeStream = require('merge-stream');
-gulp.task('build', ['clean'], function() {
+gulp.task('build', ['clean'], function(cb) {
   let polymerStuff = mergeStream(project.sources(), project.dependencies())
-    .pipe(project.analyzer)
-    .pipe(project.bundler);
+    .pipe(project.analyzer);
 
-  let aceFiles = [
-    './bower_components/ace-builds/src-min/mode-html.js',
-    './bower_components/ace-builds/src-min/worker-html.js'
-  ];
+  const forkStream = require('polymer-build').forkStream;
 
-  return mergeStream(polymerStuff, gulp.src(aceFiles))
-    .pipe(gulp.dest('build/'));
+  forkStream(polymerStuff).pipe(gulp.dest('build/unbundled'));
+
+  return forkStream(polymerStuff)
+    .pipe(project.bundler)
+    .pipe(gulp.dest('build/bundled'));
 });
